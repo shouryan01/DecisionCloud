@@ -1,5 +1,6 @@
 @page "/"
 @layout LandingLayout
+@inject NavigationManager NavigationManager
 
 <div id="content">
     <h1 id="h1">Decision Cloud</h1>
@@ -31,3 +32,17 @@
         background-color: #184cb5;
     }
 </style>
+
+@code {
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var user = (await AuthStat).User;
+        if(user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo($"/home");
+        }
+    }
+}
