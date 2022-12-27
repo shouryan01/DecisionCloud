@@ -1,0 +1,30 @@
+@page "/upload"
+@using Azure.Storage.Blobs
+
+<h1>Upload Single File</h1>
+<InputFile OnChange="@UploadFiles" multiple />
+
+
+@code
+{
+    private int maxAllowedFiles = 5;
+    private async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        var blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=blobstoragefall2022;AccountKey=OegeBfka+FzYasfz7PdEKtQWkUyBn5Z0UOyTTbqJFboMMVR7PJG5Ehp5RqZjLggf6Zro9de2kDM/+AStHTLmSw==;EndpointSuffix=core.windows.net";
+        var blobStorageContainerName = "media";
+        var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
+ 
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                var trustedFileName = Path.GetFileName(file.Name);
+                await container.UploadBlobAsync(trustedFileName, file.OpenReadStream());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
