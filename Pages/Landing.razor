@@ -1,8 +1,10 @@
 @page "/"
 @layout LandingLayout
+@inject NavigationManager NavigationManager
 
 <div id="content">
     <h1 id="h1">Decision Cloud</h1>
+
     <a href="/home" class="btn btn-outline-primary btn-lg" style="font-weight: bold; border: 2px solid #184cb5; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);"> Enter</a>
 </div>
 
@@ -31,3 +33,17 @@
         background-color: #184cb5;
     }
 </style>
+
+@code {
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var user = (await AuthStat).User;
+        if(user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo($"/home");
+        }
+    }
+}

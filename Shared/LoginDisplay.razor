@@ -1,9 +1,9 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage">Hello, @context.User.Identity?.Name!</a>
-        <form method="post" action="Identity/Account/LogOut">
+        <a href="Identity/Account/Manage">@context.User.Identity?.Name</a>
+        @* <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
             <button type="submit" class="nav-link btn btn-link">Log out</button>
-        </form>
+        </form> *@
     </Authorized>
     <NotAuthorized>
         <a href="Identity/Account/Register">Register</a>

@@ -1,7 +1,24 @@
 ﻿@page "/home"
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        Hi @context.User.Identity?.Name!
+    </Authorized>
+</AuthorizeView>
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+@code {
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
 
-Welcome to your new app.
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var user = (await AuthStat).User;
+        if(!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/Identity/Account/Login", true);
+        }
+    }
+}
