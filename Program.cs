@@ -9,6 +9,7 @@ using WebPWrecover.Services;
 using DecisionCloud.Areas.Identity;
 using DecisionCloud.Data;
 using Microsoft.AspNetCore.Authorization;
+using DecisionCloud.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
