@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DecisionCloud.Data;
-using DecisionCloud.Model;
 using DecisionCloud.Areas.Identity.Data;
+using DecisionCloud.Model;
 
 namespace DecisionCloud.Controllers
 {
@@ -16,11 +15,24 @@ namespace DecisionCloud.Controllers
         {
             _db = db;
         }
-
+ 
         [HttpGet]
         public async Task<ActionResult<List<BrandModel>>> GetBrands()
         {
             return await _db.Brands.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BrandModel>> GetBrand(Guid id)
+        {
+            var brand = await _db.Brands.FindAsync(id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            return brand;
         }
 
         [HttpPost]
@@ -30,6 +42,21 @@ namespace DecisionCloud.Controllers
             await _db.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetBrands), new { id = b.BrandId }, b);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<BrandModel>> DeleteBrand(Guid id)
+        {
+            var brand = await _db.Brands.FindAsync(id);
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            _db.Brands.Remove(brand);
+            await _db.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

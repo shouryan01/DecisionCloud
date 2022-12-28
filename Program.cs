@@ -86,12 +86,12 @@ app.MapFallbackToPage("/_Host");
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 // Initialize the database
-var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-using (var scope = scopeFactory.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    SeedData.Initialize(db);
+// var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+// using (var scope = scopeFactory.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//     SeedData.Initialize(db);
 
-}
+// }
 
 app.Run();
