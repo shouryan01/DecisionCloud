@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DecisionCloud.Data;
 using DecisionCloud.Model;
+using DecisionCloud.Areas.Identity.Data;
 
 namespace DecisionCloud.Controllers
 {
@@ -9,9 +10,9 @@ namespace DecisionCloud.Controllers
     [ApiController]
     public class BrandController : Controller
     {
-        private BrandStoreContext _db;
+        private ApplicationDbContext _db;
 
-        public BrandController(BrandStoreContext db)
+        public BrandController(ApplicationDbContext db)
         {
             _db = db;
         }

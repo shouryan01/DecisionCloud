@@ -1,10 +1,11 @@
+using DecisionCloud.Areas.Identity.Data;
 using DecisionCloud.Model;
 
 namespace DecisionCloud.Data;
 
 public static class SeedData
 {
-    public static void Initialize(BrandStoreContext db)
+    public static void Initialize(ApplicationDbContext db)
     {
         var b = new BrandModel[]
         {
