@@ -4,7 +4,12 @@
 
 <AuthorizeView>
     <Authorized>
-        Hi  @name
+        <h1>Dashboard</h1>
+        <br /><br /><br />
+        Hi @context.User.Identity.Name!
+        <br /><br />
+        Use the menu to navigate to the different pages.
+
     </Authorized>
 </AuthorizeView>
 
@@ -12,15 +17,13 @@
 
 @code {
     [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
-    string name;
     
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
         var authstate = await GetAuthenticatorKeyAsync.GetAuthenticationStateAsync();
-
         var user = authstate.User;
-        name = authstate.User.Identity.Name;
+        
         if(!user.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/Identity/Account/Login", true);
