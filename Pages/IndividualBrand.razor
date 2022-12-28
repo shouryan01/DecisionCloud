@@ -1,0 +1,39 @@
+@page "/api/brands/{BrandId}"
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@using DecisionCloud.Model
+
+<h1>@brandinfo.BrandName</h1><br />
+<h4>@brandinfo.BrandLink</h4><br />
+@brandinfo.BrandId<br />
+@brandinfo.BrandImage<br />
+@brandinfo.Channel_Alpha<br />
+@brandinfo.Channel_Beta<br />
+@brandinfo.Channel_Gamma<br />
+@brandinfo.Status
+@brandinfo.Cnt_Max<br />
+@brandinfo.Cnt_Reg<br />
+
+<br /><br /><br /><br />
+<a href='/api' class="btn btn-success">Back</a>
+<button class="btn btn-danger" @onclick="() => DeleteBrand(brandinfo.BrandId)">Delete</button>
+
+
+
+@code
+{
+    [Parameter]
+    public string BrandId { get; set; }
+    public BrandModel brandinfo = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        brandinfo = await HttpClient.GetFromJsonAsync<BrandModel>(NavigationManager.BaseUri + "api/brands/" + BrandId);
+    }
+
+    protected async void DeleteBrand(Guid id)
+    {
+        await HttpClient.DeleteAsync(NavigationManager.BaseUri + "api/brands/" + id);
+        NavigationManager.NavigateTo("/refresh");
+    }
+}

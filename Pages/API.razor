@@ -1,5 +1,42 @@
 @page "/api"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@using DecisionCloud.Model
 
 <NavLink class="nav-link" href="/api/brands" Match="NavLinkMatch.All">
     <span class="oi oi-bold" aria-hidden="true"></span> Brand
 </NavLink>
+
+@if (brandslist != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in brandslist)
+            {
+                <tr>
+                    <td>
+                        <a href="/api/brands/@b.BrandId">@b.BrandName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code 
+{
+    public List<BrandModel> brandslist = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        brandslist = await HttpClient.GetFromJsonAsync<List<BrandModel>>(NavigationManager.BaseUri + "api/brands");
+    }
+}

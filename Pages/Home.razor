@@ -4,7 +4,12 @@
 
 <AuthorizeView>
     <Authorized>
-        Hi @context.User.Claims.Where(x => x.Type=="Name").Select(x => x.Value).FirstOrDefault()!
+        <h1>Dashboard</h1>
+        <br /><br /><br />
+        Hi @context.User.Identity.Name!
+        <br /><br />
+        Use the menu to navigate to the different pages.
+
     </Authorized>
 </AuthorizeView>
 

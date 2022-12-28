@@ -1,3 +1,33 @@
 @page "/db-add"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@using DecisionCloud.Model
 
-To be completed
+<form>
+  <div class="form-group">
+    <br /><br />
+    <h1>POST to DB</h1>
+    <input class="form-control" type="text" placeholder="BrandLink" @bind="b.BrandLink">
+    <input class="form-control" type="text" placeholder="BrandName" @bind="b.BrandName">
+    <input class="form-control" type="text" placeholder="BrandImage" @bind="b.BrandImage">
+    <input class="form-control" type="text" placeholder="Channel_Alpha" @bind="b.Channel_Alpha">
+    <input class="form-control" type="text" placeholder="Channel_Beta" @bind="b.Channel_Beta">
+    <input class="form-control" type="text" placeholder="Channel_Gamma" @bind="b.Channel_Gamma">
+    <input class="form-control" type="text" placeholder="Status" @bind="b.Status">
+
+    <input class="form-control" type="number" placeholder="Cnt_Max" @bind="b.Cnt_Max">
+    <input class="form-control" type="number" placeholder="Cnt_Reg" @bind="b.Cnt_Reg">
+
+    <br />
+    <button type="submit" class="btn btn-primary" value="Submit" @onclick="Add">Submit</button>
+  </div>
+</form>
+
+@code {
+    [Parameter] public BrandModel b { get; set; } = new BrandModel();
+    protected async Task Add()
+    {
+        var response = await HttpClient.PostAsJsonAsync(NavigationManager.BaseUri + "api/brands", b);
+    }
+}
