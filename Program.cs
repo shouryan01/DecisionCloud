@@ -40,7 +40,6 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSqlite<BrandStoreContext>("Data Source=app.db");
 
 HttpClientHandler clientHandler = new HttpClientHandler();
 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -83,11 +82,9 @@ app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<BrandStoreContext>();
-    if (db.Database.EnsureCreated())
-    {
-        SeedData.Initialize(db);
-    }
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    SeedData.Initialize(db);
+
 }
 
 app.Run();
