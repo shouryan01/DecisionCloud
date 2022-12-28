@@ -15,8 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var ssConnectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
+
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlite(connectionString));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(ssConnectionString));
+
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<DecisionCloudUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
