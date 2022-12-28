@@ -1,9 +1,10 @@
 ﻿@page "/home"
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider GetAuthenticatorKeyAsync
 
 <AuthorizeView>
     <Authorized>
-        Hi @context.User.Identity?.Name!
+        Hi @context.User.Claims.Where(x => x.Type=="Name").Select(x => x.Value).FirstOrDefault()!
     </Authorized>
 </AuthorizeView>
 
@@ -11,11 +12,13 @@
 
 @code {
     [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
-
+    
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
-        var user = (await AuthStat).User;
+        var authstate = await GetAuthenticatorKeyAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        
         if(!user.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/Identity/Account/Login", true);

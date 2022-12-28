@@ -1,13 +1,18 @@
+using DecisionCloud.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+namespace DecisionCloud.Areas.Identity.Data;
+
+public class ApplicationDbContext : IdentityDbContext<DecisionCloudUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
+
+    public DbSet<BrandModel> Brands { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

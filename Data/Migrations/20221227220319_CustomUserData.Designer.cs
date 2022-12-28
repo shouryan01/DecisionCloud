@@ -3,6 +3,7 @@ using System;
 using DecisionCloud.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DecisionCloud.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221227220319_CustomUserData")]
+    partial class CustomUserData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.12");
@@ -82,44 +84,6 @@ namespace DecisionCloud.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("DecisionCloud.Model.BrandModel", b =>
-                {
-                    b.Property<Guid>("BrandId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BrandImage")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BrandLink")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BrandName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Channel_Alpha")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Channel_Beta")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Channel_Gamma")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Cnt_Max")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Cnt_Reg")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("BrandId");
-
-                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
