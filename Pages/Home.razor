@@ -4,7 +4,7 @@
 
 <AuthorizeView>
     <Authorized>
-        Hi  @name
+        Hi @context.User.Claims.Where(x => x.Type=="Name").Select(x => x.Value).FirstOrDefault()!
     </Authorized>
 </AuthorizeView>
 
@@ -12,15 +12,13 @@
 
 @code {
     [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
-    string name;
     
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
         var authstate = await GetAuthenticatorKeyAsync.GetAuthenticationStateAsync();
-
         var user = authstate.User;
-        name = authstate.User.Identity.Name;
+        
         if(!user.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/Identity/Account/Login", true);
